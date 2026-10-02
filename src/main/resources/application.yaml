@@ -7,5 +7,17 @@ spring:
     password: password123
   jpa:
       hibernate:
-        ddl-auto: update
+        ddl-auto: validate
       show-sql: true
+  flyway:
+    # Bật/Tắt Flyway (true là cho phép tự động chạy migration khi start app)
+    enabled: true
+    # Chế độ Baseline:
+    # false (Mặc định): Sẽ báo lỗi nếu DB đã có dữ liệu mà chưa có bảng lịch sử Flyway.
+    # true: Sẽ tự tạo bảng lịch sử và coi DB hiện tại là phiên bản gốc (v1) nếu gặp DB cũ.
+    baseline-on-migrate: false
+    # Đường dẫn tới thư mục chứa các file SQL migration
+    # Các file thường đặt trong: src/main/resources/db/migration
+    locations: classpath:db/migration
+    baseline-version: 0
+

@@ -29,13 +29,13 @@ public class ProductController extends BaseController {
             @RequestParam(value = "page_size", defaultValue = "10") int size,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(name = "sort_by", defaultValue = "id") String sortBy,
-            @RequestParam(name = "sort_dir", defaultValue = "asc") String sortDir
-
+            @RequestParam(name = "sort_dir", defaultValue = "asc") String sortDir,
+            @RequestParam(name = "category") String category
     ) {
         Sort sort = sortDir.equalsIgnoreCase(ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page == 0 ? page : page - 1, size, sort);
 
-        return ApiResponse.success(productService.getAllProduct(pageable));
+        return ApiResponse.success(productService.getAllProduct(category, name, pageable));
 
     }
 
